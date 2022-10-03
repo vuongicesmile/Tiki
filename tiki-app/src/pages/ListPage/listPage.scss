@@ -1,0 +1,11 @@
+.listpage-container {
+    display: flex;
+    width: 100%;
+    .left-listpage {
+        width: 253px;
+    }
+    .right-listpage {
+        width: calc(100% - 253px)
+    }
+
+}
