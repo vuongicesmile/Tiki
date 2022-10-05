@@ -4,6 +4,7 @@ import "./listPage.scss";
 import ProductSkelatons from "../Product/ProductSkeletons";
 import ProductList from "../Product/ProductList";
 import ProductSort from "../Product/ProductSort";
+import ProductFilters from "../Product/ProductFilters";
 
 function ListPage() {
 
@@ -22,14 +23,14 @@ function ListPage() {
     const [filters,setFilters] = useState({
         _page : 1,
         _limit : 9,
-        _sort : 1
+        
     });
 
-    console.log(filters);
+    
 
     useEffect(() => {
         try {
-            fetch('https://fakestoreapi.com/products')
+            fetch(`https://fakestoreapi.com/products${filters._sort ? `?sort=${filters._sort == 1 ? 'DESC' : filters._sort == 2 && 'ASC'}` : ''}`)
             .then(res=>res.json())
             .then(json=>
                 {
@@ -62,19 +63,26 @@ function ListPage() {
 
     }
     const handleSortChange = (newSortValue) => {
-        setFilters(preFilter => ({
-            ...preFilter,
-            sort : newSortValue
-        }))
+
+        // setFilters(preFilter => ({
+        //     ...preFilter,
+        //     sort : newSortValue == 1 ? 'ASC' : 'DESC'
+        // }))
         console.log(newSortValue);
     }
-
+    const handleFiltersChange = (newFilters) => {
+      setFilters(preFilter => ({
+        ...preFilter,
+        newFilters
+      }))
+    }
   return (
     <Col span={24} className="listpage-container ">
       <Row className="d-flex w-100" gutter={5} >
         <Col className="left-listpage">
           <Card title="Card title" bordered={false}>
-            hien thi phan ben trai
+           {/* Tao product filter , moi lan thay doi gi truyen bo filter minh xuong */}
+           <ProductFilters filters={filters} onChange={handleFiltersChange} />
           </Card>
         </Col>
         <Col  className="right-listpage">
